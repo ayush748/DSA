@@ -15,7 +15,7 @@ public:
         q.push({row, col});
         vis[row][col] = 1;
 
-        int dr[4] = {-1, 0, 1, 0};  // up, right, down, left
+        int dr[4] = {-1, 0, 1, 0};
         int dc[4] = {0, 1, 0, -1};
 
         while (!q.empty()) {
