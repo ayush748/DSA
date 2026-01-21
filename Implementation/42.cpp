@@ -34,6 +34,8 @@ int main(){
             cin>>arr[i];
         }
         int ans=solve(arr);
+        cout<<ans;
+        cout<<endl;
     }
     return 0;
 }

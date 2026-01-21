@@ -87,7 +87,7 @@ class Graph{
             T node=i.first;
             if(!visited[node]){
                 if(checkCycleBfs(node,visited)){
-                    retrun true;
+                    return true;
                 }
             }
         }

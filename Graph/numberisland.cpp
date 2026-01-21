@@ -4,25 +4,18 @@
 using namespace std;
 class Solution2 {
 public:
-    void bfs(int row, int col,
-             vector<vector<int>> &vis,
-             vector<vector<char>> &grid) {
-
+    void bfs(int row, int col,vector<vector<int>> &vis,vector<vector<char>> &grid){
         int n = grid.size();
         int m = grid[0].size();
-
         queue<pair<int,int>> q;
         q.push({row, col});
         vis[row][col] = 1;
-
         int dr[4] = {-1, 0, 1, 0};
         int dc[4] = {0, 1, 0, -1};
-
         while (!q.empty()) {
             int r = q.front().first;
             int c = q.front().second;
             q.pop();
-
             for (int i = 0; i < 4; i++) {
                 int nrow = r + dr[i];
                 int ncol = c + dc[i];
@@ -61,13 +54,10 @@ public:
 
 class Solution {
 public:
-    void bfs(int row, int col,
-             vector<vector<int>> &vis,
-             vector<vector<char>> &grid) {
+    void bfs(int row, int col,vector<vector<int>> &vis,vector<vector<char>> &grid) {
 
         int n = grid.size();
         int m = grid[0].size();
-
         queue<pair<int, int>> q;
         q.push({row, col});
         vis[row][col] = 1;
@@ -95,7 +85,7 @@ public:
         }
     }
 
-    int numIslands(vector<vector<char>> &grid) {
+    int numIslands(vector<vector<char>>&grid) {
         int n = grid.size();
         int m = grid[0].size();
 
