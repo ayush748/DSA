@@ -1,51 +1,35 @@
-// #include<iostream>
-// #include<vector>
-// using namespace std;
-// int main(){
-//     int n;
-//     cin>>n;
-//     bool flag=true;
-    
-//     while(n>0){
-//         int ans=n%10;
-//         // cout<<ans;
-//         if(ans!=4 && ans!=7){
-//             flag=false;
-//             break;
-//         }
-//         n=n/10;
-//     }
-//     if(flag){
-//         cout<<"Yes";
-//     }else{
-//         cout<<"No";
-//     }
-//     return 0;
-// }
-#include<iostream>
-#include<vector>
-#include<unordered_map>
+#include <iostream>
 using namespace std;
-int main(){
-    int n;
-    cin>>n;
-    unordered_map<int,int>mp;
-    while(n>0){
-        int val=n%10;
-        mp[val]++;
-        n=n/10;
+
+int main() {
+    long long n;
+    cin >> n;
+
+    int cnt = 0;
+
+    // Count lucky digits
+    while (n > 0) {
+        int val = n % 10;
+        if (val == 4 || val == 7)
+            cnt++;
+        n /= 10;
     }
-    bool flag=false;
-    for(auto it=mp.begin();it!=mp.end();it++){
-        int val1=it->first;
-        if(val1!=4 || val1!=7){
-            flag=true;
+
+    if (cnt == 0) {
+        cout << "NO";
+        return 0;
+    }
+
+    // Check if count is lucky
+    while (cnt > 0) {
+        int val = cnt % 10;
+        if (val != 4 && val != 7) {
+            cout << "NO";
+            return 0;
         }
+        cnt /= 10;
     }
-    if(flag){
-        cout<<"No"<<endl;
-    }else{
-        cout<<"Yes"<<endl;
-    }
-    return  0;
+
+    cout << "YES";
+    return 0;
 }
