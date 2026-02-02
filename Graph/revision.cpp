@@ -3,21 +3,21 @@
 #include<unordered_map>
 #include<list>
 using namespace std;
-template<typename T>
 class Graph{
     public:
-    unordered_map<int,list<pair<T,int>>>adjList;
-    void addEdge(T u,T v,int wt,int direction)
-    {
-        if(direction==1){
-            adjList[u].push_back({v,wt});
+    unordered_map<int,list<pair<int,int>>>adjlist;
+    void addEdges(int u,int v,int wt,int direction){
+        if(direction){
+            adjlist[u].push_back({u,wt});
         }else{
-            adjList[v].p
+            adjlist[u].push_back({v,wt});
+            adjlist[v].push_back({u,wt});
         }
     }
-    
+    void printAdjList(){
+        
+    }
 };
-
 int main(){
     return 0;
 }
