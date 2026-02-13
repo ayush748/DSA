@@ -26,23 +26,30 @@ class Graph{
         }
     }
     
+    // void bfs(T src){
+    //     unordered_map<T,bool>visited;
+    //     queue<T>q;
+    //     q.push(src);
+    //     visited[src]=true;
+    //     while(!q.empty()){
+    //         T frontNode=q.front();
+    //         cout<<frontNode<<" ";
+    //         q.pop();
+    //         for(auto nbr:adjlist[frontNode]){
+    //             T child=nbr.first;
+    //             if(!visited[child]){
+    //                 q.push(child);
+    //                 visited[child]=true;
+    //             }
+    //         }
+    //     }
+    // }\
+
     void bfs(T src){
-        unordered_map<T,bool>visited;
+        unordered_map<T,bool>mp;
         queue<T>q;
         q.push(src);
-        visited[src]=true;
-        while(!q.empty()){
-            T frontNode=q.front();
-            cout<<frontNode<<" ";
-            q.pop();
-            for(auto nbr:adjlist[frontNode]){
-                T child=nbr.first;
-                if(!visited[child]){
-                    q.push(child);
-                    visited[child]=true;
-                }
-            }
-        }
+        
     }
     
 };
