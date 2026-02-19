@@ -1,21 +1,21 @@
 #include<iostream>
 #include<vector>
 #include<unordered_map>
-#include<list>
 using namespace std;
+template<typename T>
 class Graph{
     public:
-    unordered_map<int,list<pair<int,int>>>adjlist;
-    void addEdges(int u,int v,int wt,int direction){
+    unordered_map<T,list<pair<T,wt>>adjList;
+    void addEdge(T u,T v,int wt,bool direction){
+        adjList[u].push_back({v,wt});
         if(direction){
-            adjlist[u].push_back({u,wt});
-        }else{
-            adjlist[u].push_back({v,wt});
-            adjlist[v].push_back({u,wt});
+            adjList[v].push_back({u,wt});
         }
     }
-    void printAdjList(){
-        
+    void printadjlist(){
+        for(auto i:adjlist){
+            for(pair<T,int>nbr:)
+        }
     }
 };
 int main(){
