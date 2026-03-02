@@ -1,58 +1,28 @@
 #include<iostream>
 #include<vector>
-#include<unordered_map>
-#include<queue>
+#include<algorithm>
 #include<list>
+#include<unordered_map>
 using namespace std;
 template<typename t>
-class graph{
+class Graph{
     public:
-    unordered_map<t,list<pair<t,int>>>adjlist;
-    void addEdge(t u,t v,int wt,bool direction){
+    unordered_map<t,list<t,int>>adjlist;
+    void addedge(t u,t v,bool direction,int wt){
         adjlist[u].push_back({v,wt});
-        if(direction == 1){
+        if(direction){
             adjlist[v].push_back({u,wt});
         }
     }
-    void printadjlist(){
+    void printAdj(){
         for(auto i:adjlist){
-            cout<<i.first<<"->";
-            for(auto nbr:i.second){
-                cout<<nbr.first<<","<<nbr.second<<endl;
+            cout<<i.first<<"->"
+            for(pair<t,int>nbr:i.second){
+                cout<<nbr.first<<"->"<<nbr.second;
             }
         }
     }
-    void bfs(t src)
-    {
-        unordered_map<t,bool>visited;
-        queue<t>q;
-        q.push(src);
-        visited[src]=true;
-        while(!q.empty()){
-            t node=q.front();
-            cout<<node<<" ";
-            q.pop();
-            for(auto nbr:adjlist[node]){
-                t child=nbr.first;
-                if(!visited[child]){
-                    q.push(child);
-                    visited[child]=true;
-                }
-            }
-        }
-    }
-    void dfs(t src,unordered_map<t,bool>&visited){
-        visited[src]=true;
-        cout<<src<<" ";
-        for(auto nbr:adjlist[src]){
-            t child=nbr.first;
-            if(!visited[src]){
-                dfs(child,visited);
-            }
-        }
-    }
-    
 };
 int main(){
-    
+    return 0;
 }
