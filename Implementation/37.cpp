@@ -1,16 +1,13 @@
-#include <iostream>
-#include <boost/multiprecision/cpp_int.hpp>
+#include<iostream>
+#include<vector>
 using namespace std;
-using namespace boost::multiprecision;
-
 int main(){
     int n;
-    cin >> n;
-
-    cpp_int ans = 1;
-    ans <<= n;   
-    ans -= 1;   
-
-    cout << ans;
+    cin>>n;
+    int sum=n;
+    for(int i=0;i<n;i++){
+        sum=sum+(n-i)*i;
+    }
+    cout<<sum<<endl;
     return 0;
 }
