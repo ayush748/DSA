@@ -1,62 +1,52 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-// recursive approach
-int solve1(vector<int>&arr,int n){
-    if(n==0){
-        return arr[0];
-    }
-    if(n==1){
-        return arr[1];
-    }
-    int ans=arr[n]+min(solve1(arr,n-1),solve1(arr,n-2));
-    return ans;
-}
-int solve2(vector<int>arr,int n,vector<int>&dp){
-    if(n==0){
-        return arr[0];
-    }
-    if(n==1){
-        return arr[1];
-    }
-
-    dp[n]=arr[n]+min(solve2(arr,n-1,dp),solve2(arr,n-2,dp));
-    return dp[n];
-}
-int solve3(int n,vector<int>&arr){
-    if(n==0){
+int solve(vector<int>arr,int l,int r){
+    if(r-l <=1){
         return 0;
     }
-    if(n==1){
-        return arr[0];
+    int res=INT_MAX;
+    for(int i=l+1;i<r;i++){
+        int cost=solve(arr,l,i)+solve(arr,i,r)+(arr[r]-arr[l]);
+        res=min(res,cost);
     }
-    vector<int>dp(n+1);
-    dp[0]=arr[0];
-    dp[1]=arr[1];
-    for(int i=2;i<n;i++){
-        dp[i]=arr[i]+min(dp[i-1],dp[i-2]);
-    }
-    return min(dp[n-1],dp[n-2]);
+    return res;
 }
-int solve4(int n,vector<int>&arr){
-    int prev2=arr[0];
-    int prev1=arr[1];
-    for(int i=2;i<n;i++){
-        int curr=arr[0]+min(prev1,prev2);
-        prev2=prev1;
-        prev1=curr;
+int solvedp(vector<int>arr,int l,int r,vector<vector<int>>dp){
+    if(r-l<=1){
+        return 0;
     }
-    return min(prev1,prev2);
+    if(dp[l][r]!=-1){
+        return dp[l][r];
+    }
+    int res=INT_MAX;
+    for(int i=l+1;i<r;i++){
+        int cost=solvedp(arr,l,i,dp)+solvedp(arr,i,r,dp)+arr[r]-arr[l];
+        res=max(cost,res);
+    }
+    dp[l][r]=res;
+    return dp[l][r];
+}
+int solve(vector<int>arr){
+    int n=arr.size();
+    vector<vector<int>>dp(n,vector<int>(n,0));
+    for(int l=n-1;l>=0;l--){
+        for(int r=l+1;r<n;r++){
+            int ans=INT_MAX;
+            if(r-l<=1){
+                dp[l][r]=0;
+                continue; 
+            }
+            int ans=INT_MAX;
+            for(int k=l+1;k<r;k++){
+                int cost=dp[l][k]+dp[k][r]+(arr[r]-arr[l]);
+                ans=min(ans,cost);
+            }
+            dp[l][r]=ans;
+        }
+    }
+    return dp[0][n-1];
 }
 int main(){
-    int n;
-    cin>>n;
-    vector<int>arr(n);
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
-    }
-    vector<int>dp(n+1,-1);
-    int ans=solve3(n,arr);
-    cout<<ans;
     return 0;
 }
