@@ -1,47 +1,52 @@
 #include<iostream>
 #include<vector>
 #include<unordered_map>
+#include<queue>
 using namespace std;
-class solution{
-    public:
-    void dfs(int src,unordered_map<int,bool>&visited,vector<vector<int>>& arr){
-        visited[src]=true;
-        for(int i=0;i<arr.size();i++){
-            if(!visited[i] && arr[src][i]==1){
-                dfs(i,visited,arr);
+void bfs(int rowX,int colY,vector<vector<char>>&arr,vector<vector<bool>>&visited){
+    int n=arr.size();
+    int m=arr[0].size();
+    queue<pair<int,int>>q;
+    q.push({rowX,colY});
+    visited[rowX][colY]=true;
+    int dx[]={-1,0,1,0};
+    int dy[]={0,1,0,-1};
+    while(!q.empty()){
+        auto front=q.front();
+        q.pop();
+        int x=front.first;
+        int y=front.second;
+        for(int i=0;i<4;i++){
+            int newX=x+dx[i];
+            int newY=y+dy[i];
+            if(newX>=0 && newX<n && newY>=0 && newY<m && !visited[newX][newY]==true && arr[newX][newY]=='1'){
+                visited[newX][newY]=true;
+                q.push({newX,newY});
             }
         }
     }
-    int noofconnectedcomp(vector<vector<int>>arr){
-        int n=arr.size();
-        unordered_map<int,bool>visited;
-        for(int i=0;i<n;i++){
-            visited[i]=false;
+}
+int main(){
+    int n,m;
+    cin>>n>>m;
+    vector<vector<char>>arr;
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>arr[i][j];
         }
-        int cnt=0;
-        for(int i=0;i<n;i++){
-            if(!visited[i]){
-                dfs(i,visited,arr);
+    }
+    
+    int cnt=0;
+    vector<vector<bool>>visited(n,vector<bool>(m,false));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(!visited[i][j]){
+                bfs(i,j,arr,visited);
                 cnt++;
             }
         }
-        return cnt;
     }
-
-};
-int main(){
-    int n;
-    cin>>n;
-    vector<vector<int>>arr(n,vector<int>(n));
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            int data;
-            cin>>data;
-            arr[i].push_back(data);
-        }
-    }
-    solution obj;
-    int ans=obj.noofconnectedcomp(arr);
-    cout<<ans;
+    cout<<cnt<<endl;
     return 0;
 }

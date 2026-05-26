@@ -1,32 +1,53 @@
 #include<iostream>
 #include<vector>
-#include<unordered_set>
 #include<queue>
+#include<string>
+#include<unordered_set>
 using namespace std;
-int solve(string &word1,string &word2,vector<string>&wordlenght){
-    queue<pair<string,int>>q;
-    q.push({word1,1});
-    unordered_set<string>st(wordlenght.begin(),wordlenght.end());
-    st.erase(word1);
-    while(!q.empty()){
-        string word=q.front().first;
-        int steps=q.front().second;
+vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+    unordered_set<string> st(wordList.begin(), wordList.end());
+    queue<vector<string>> q;
+    q.push({beginWord});
+    vector<string> usedOnLevel;
+    usedOnLevel.push_back(beginWord);
+    int level = 0;
+    vector<vector<string>> ans;
+    while(!q.empty()) {
+        vector<string> vec = q.front();
         q.pop();
-        if(word==word2){
-            return steps;
-        }
-        for(int i=0;i<word.size();i++){
-            char orginal=word[i];
-            for(char ch='a';ch<='z';ch++){
-                st.erase(word);
-                q.push({word,steps+1});
+        // new level
+        if(vec.size() > level) {
+            level++;
+            for(auto it : usedOnLevel) {
+                st.erase(it);
             }
-            word[i]=orginal;
+            usedOnLevel.clear();
+        }
+        string word = vec.back();
+        if(word == endWord){
+            if(ans.size() == 0) {
+                ans.push_back(vec);
+            }
+            else if(ans[0].size() == vec.size()) {
+                ans.push_back(vec);
+            }
+        }
+        for(int i = 0; i < word.size(); i++){
+            char original = word[i];
+            for(char ch = 'a'; ch <= 'z'; ch++){
+                word[i] = ch;
+                if(st.count(word)){
+                    vec.push_back(word);
+                    q.push(vec);
+                    usedOnLevel.push_back(word);     
+                    vec.pop_back();
+                }
+            }       
+            word[i] = original;
         }
     }
-    return 0;
+    return ans;
 }
-
 int main(){
     return 0;
 }
