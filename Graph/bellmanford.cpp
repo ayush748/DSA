@@ -1,44 +1,50 @@
 #include<iostream>
+#include<unordered_map>
 #include<vector>
+#include<queue>
 using namespace std;
-
-vector<int> solve(int n,int src,vector<vector<int>>&edges){
-    vector<int>dist(n,1e9);
-    dist[src]=0;
-    
+int main(){
+    int n,e;
+    cin>>n,e;
+    vector<vector<int>>adj;
+    for(int i=0;i<e;i++){
+        int u;
+        int v;
+        int wt;
+        cin>>u>>v>>wt;
+        adj.push_back({u,v,wt});
+    }
+    int src;
+    cin>>src;
+    vector<int>ans(n,1e8);
+    ans[src]=0;
     for(int i=0;i<n-1;i++){
-        for(auto e:edges){
-            int u=e[0];
-            int v=e[1];
-            int w=e[2];
-            
-            if(dist[u]!=1e9 && dist[u]+w<dist[v]){
-                dist[v]=dist[u]+w;
+        for(auto nbr:adj){
+            int u=nbr[0];
+            int v=nbr[1];
+            int wt=nbr[2];
+
+            if(ans[u]!=1e8 && ans[u]+wt <ans[v]){
+                ans[v]=ans[u]+wt;
             }
         }
     }
-    
-    return dist;
-}
-
-int main(){
-    int n,m;
-    cin>>n>>m;
-    vector<vector<int>>edges;
-    for(int i=0;i<m;i++){
-        int u,v,w;
-        cin>>u>>v>>w;
-        edges.push_back({u,v,w});
+    bool flag=true;
+    for(auto nbr:adj){
+        int u=nbr[0];
+        int v=nbr[1];
+        int wt=nbr[2];
+        if(ans[u]!=1e8 && ans[u]+wt<ans[v]){
+            flag=false;
+            break;
+        }
     }
-    
-    int src;
-    cin>>src;
-    
-    vector<int>ans=solve(n,src,edges);
-    
-    for(int i=0;i<n;i++){
-        cout<<ans[i]<<" ";
+    if(flag){
+        for(int i=0;i<ans.size();i++){
+            cout<<ans[i]<<" ";
+        }
+    }else{
+        cout<<-1;
     }
-    
     return 0;
 }
