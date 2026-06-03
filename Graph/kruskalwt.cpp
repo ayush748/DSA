@@ -5,7 +5,7 @@
 using namespace std;
 
 vector<int> parent;
-vector<int> rnk;
+vector<int> wt;
 
 int find(int x){
     if(x==parent[x]){
@@ -17,20 +17,16 @@ int find(int x){
 void Union(int x,int y){
     int xp=find(x);
     int yp=find(y);
-
     if(xp==yp){
         return;
     }
-
-    if(rnk[xp]>rnk[yp]){
+    if(wt[xp] >= wt[yp]){
         parent[yp]=xp;
-    }
-    else if(rnk[xp]<rnk[yp]){
-        parent[xp]=yp;
+        wt[xp]+=wt[yp];
     }
     else{
         parent[xp]=yp;
-        rnk[yp]++;
+        wt[yp]+=wt[xp];
     }
 }
 
@@ -40,11 +36,11 @@ int kruskal(vector<vector<int>>& vec){
     for(auto temp:vec){
         int u=temp[0];
         int v=temp[1];
-        int wt=temp[2];
+        int d=temp[2];
 
         if(find(u)!=find(v)){
             Union(u,v);
-            sum+=wt;
+            sum+=d;
         }
     }
 
@@ -58,15 +54,15 @@ int main(){
     vector<vector<pair<int,int>>> adj(v);
 
     for(int i=0;i<e;i++){
-        int u,to,wt;
-        cin>>u>>to>>wt;
+        int u,to,d;
+        cin>>u>>to>>d;
 
-        adj[u].push_back({to,wt});
-        adj[to].push_back({u,wt});
+        adj[u].push_back({to,d});
+        adj[to].push_back({u,d});
     }
 
     parent.resize(v);
-    rnk.resize(v,0);
+    wt.resize(v,1);
 
     for(int i=0;i<v;i++){
         parent[i]=i;
@@ -78,10 +74,10 @@ int main(){
         for(auto temp:adj[i]){
             int u=i;
             int to=temp.first;
-            int wt=temp.second;
+            int d=temp.second;
 
             if(u<to){
-                vec.push_back({u,to,wt});
+                vec.push_back({u,to,d});
             }
         }
     }
