@@ -27,3 +27,7 @@ console.log(a); // 40
 console.log(c); // ReferenceError: Cannot access 'c' before initialization - 'c' is in TDZ
 let c = 50;
 console.log(c); // 50 - now 'c' is initialized and can be accessed
+
+
+let user;
+console.log(user); // undefined - variable is declared but not initialized
