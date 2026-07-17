@@ -1,25 +1,17 @@
 #include<iostream>
 #include<vector>
-#include<unordered_map>
 #include<queue>
+#include<unordered_map>
 using namespace std;
-void dfs(int src,unordered_map<int,vector<int>>&mp,vector<bool>&vis){
-    vis[src]=true;
-    for(auto nbr:mp[src]){
-        if(!vis[nbr]){
-            dfs(src,mp,vis);
-        }
-    }
-}
-void bfs(int src,unordered_map<int,vector<int>>mp,vector<int>vis){
+void bfs(int src,vector<vector<int>>&adj,vector<bool>&vis){
     queue<int>q;
     q.push(src);
     vis[src]=true;
     while(!q.empty()){
         auto front=q.front();
         q.pop();
-        vis[front]=true;
-        for(auto nbr:mp[front]){
+        cout<<front<<" ";
+        for(auto nbr:adj[front]){
             if(!vis[nbr]){
                 vis[nbr]=true;
                 q.push(nbr);
@@ -27,30 +19,33 @@ void bfs(int src,unordered_map<int,vector<int>>mp,vector<int>vis){
         }
     }
 }
+void dfs(int src,vector<vector<int>>&adj,vector<bool>&vis){
+    vis[src]=true;
+    for(auto nbr:adj[src]){
+        if(!vis[nbr]){
+            dfs(nbr,adj,vis);
+        }
+    }
+}
 int main(){
-    vector<vector<int>>arr={
-        {1,1,0},{1,1,0},{0,0,1}
-    };
-    int n=arr.size();
-    int m=arr[0].size();
-    unordered_map<int,vector<int>>mp;
+    int n;
+    cin>>n;
+    vector<vector<int>>adj(n);
     for(int i=0;i<n;i++){
+        int m;
+        cin>>m;
         for(int j=0;j<m;j++){
-            if(i!=j){
-                mp[i].push_back(j);
-                mp[j].push_back(i);
-            }
+            int val;
+            cin>>val;
+            adj[i].push_back(val);
         }
     }
     vector<bool>vis(n,false);
-    int cnt=0;
     for(int i=0;i<n;i++){
         if(!vis[i]){
-            dfs(i,mp,vis);
-            cnt++;
+            bfs(i,adj,vis);
         }
     }
-    cout<<cnt<<endl;
 
     return 0;
 }
