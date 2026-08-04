@@ -1,54 +1,74 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<unordered_map>
-#include<stack>
+#include <iostream>
+#include <vector>
+#include <list>
+#include <unordered_map>
+#include <stack>
 using namespace std;
-void dfs(int src,unordered_map<int,vector<int>>&mp,stack<int>&st,vector<bool>&vis){
-    vis[src]=true;
-    for(auto nbr:mp[src]){
-        if(!vis[nbr]){
-            dfs(nbr,mp,st,vis);
+
+template<typename T>
+class Graph {
+public:
+    unordered_map<T, list<T>> adjList;
+
+    void addEdge(T u, T v, bool direction) {
+        adjList[u].push_back(v);
+
+        // Undirected graph
+        if (direction == 0) {
+            adjList[v].push_back(u);
         }
     }
-    st.push(src);
-}
-int main(){
-    int n;
-    cin>>n;
-    vector<vector<int>>arr(n,vector<int>(n));
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            cin>>arr[i][j];
-        }
-    }
-    unordered_map<int,vector<int>>mp;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(arr[i][j]==1){
-                mp[i].push_back(j);
+
+    void topoSortDFS(T node,
+                     unordered_map<T, bool> &visited,
+                     stack<T> &st) {
+
+        visited[node] = true;
+
+        for (auto neighbour : adjList[node]) {
+            if (!visited[neighbour]) {
+                topoSortDFS(neighbour, visited, st);
             }
         }
+
+        st.push(node);
     }
 
-    stack<int>st;
-    vector<bool>vis(n,false);
-    for(int i=0;i<n;i++){
-        if(!vis[i]){
-            dfs(i,mp,st,vis);
+    void topoSort() {
+
+        unordered_map<T, bool> visited;
+        stack<T> st;
+
+        for (auto i : adjList) {
+            if (!visited[i.first]) {
+                topoSortDFS(i.first, visited, st);
+            }
         }
+
+        cout << "Topological Order: ";
+
+        while (!st.empty()) {
+            cout << st.top() << " ";
+            st.pop();
+        }
+
+        cout << endl;
     }
+};
 
-    vector<int>ans;
-    while(!st.empty()){
-        ans.push_back(st.top());
-        st.pop();
-    }
-    
+int main() {
 
+    Graph<int> g;
 
+    // Directed Graph
+    g.addEdge(5, 2, 1);
+    g.addEdge(5, 0, 1);
+    g.addEdge(4, 0, 1);
+    g.addEdge(4, 1, 1);
+    g.addEdge(2, 3, 1);
+    g.addEdge(3, 1, 1);
 
-
+    g.topoSort();
 
     return 0;
 }
